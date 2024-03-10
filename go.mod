@@ -13,3 +13,5 @@ require (
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
+
+replace github.com/dnsge/twitch-eventsub-bindings v1.2.1 => github.com/twirapp/twitch-eventsub-bindings v0.0.2-twir
