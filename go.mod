@@ -1,9 +1,8 @@
-module github.com/dnsge/twitch-eventsub-framework
+module github.com/twirapp/twitch-eventsub-framework
 
 go 1.17
 
 require (
-	github.com/dnsge/twitch-eventsub-bindings v1.2.1
 	github.com/mozillazg/go-httpheader v0.3.0
 	github.com/stretchr/testify v1.8.2
 )

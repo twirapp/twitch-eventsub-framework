@@ -2,10 +2,11 @@ package main
 
 import (
 	"fmt"
-	esb "github.com/dnsge/twitch-eventsub-bindings"
-	esf "github.com/dnsge/twitch-eventsub-framework"
 	"log"
 	"net/http"
+
+	esf "github.com/twirapp/twitch-eventsub-framework"
+	"github.com/twirapp/twitch-eventsub-framework/esb"
 )
 
 const (

@@ -5,8 +5,8 @@ import (
 	"io"
 	"net/http"
 
-	esb "github.com/dnsge/twitch-eventsub-bindings"
 	"github.com/mozillazg/go-httpheader"
+	"github.com/twirapp/twitch-eventsub-framework/esb"
 )
 
 const (
@@ -136,6 +136,16 @@ type SubHandler struct {
 	HandleChannelChatNotification func(
 		h *esb.ResponseHeaders,
 		event *esb.EventChannelChatNotification,
+	)
+
+	HandleChannelUnbanRequestCreate func(
+		h *esb.ResponseHeaders,
+		event *esb.ChannelUnbanRequestCreate,
+	)
+
+	HandleChannelUnbanRequestResolve func(
+		h *esb.ResponseHeaders,
+		event *esb.ChannelUnbanRequestResolve,
 	)
 }
 
@@ -639,6 +649,24 @@ func (s *SubHandler) handleNotification(
 		}
 		if s.HandleChannelChatNotification != nil {
 			go s.HandleChannelChatNotification(h, &data)
+		}
+	case "channel.unban_request.create":
+		var data esb.ChannelUnbanRequestCreate
+		if err := json.Unmarshal(event, &data); err != nil {
+			http.Error(w, "Invalid JSON body", http.StatusBadRequest)
+			return
+		}
+		if s.HandleChannelUnbanRequestCreate != nil {
+			go s.HandleChannelUnbanRequestCreate(h, &data)
+		}
+	case "channel.unban_request.resolve":
+		var data esb.ChannelUnbanRequestResolve
+		if err := json.Unmarshal(event, &data); err != nil {
+			http.Error(w, "Invalid JSON body", http.StatusBadRequest)
+			return
+		}
+		if s.HandleChannelUnbanRequestResolve != nil {
+			go s.HandleChannelUnbanRequestResolve(h, &data)
 		}
 	default:
 		http.Error(w, "Unknown notification type", http.StatusBadRequest)

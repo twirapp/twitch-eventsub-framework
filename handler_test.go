@@ -3,13 +3,14 @@ package eventsub_framework
 import (
 	"bytes"
 	"context"
-	esb "github.com/dnsge/twitch-eventsub-bindings"
-	"github.com/stretchr/testify/assert"
 	"io"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 	"time"
+
+	"github.com/stretchr/testify/assert"
+	"github.com/twirapp/twitch-eventsub-framework/esb"
 )
 
 const secret = `hey this is really secret`

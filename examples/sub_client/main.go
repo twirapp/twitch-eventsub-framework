@@ -3,8 +3,9 @@ package main
 import (
 	"context"
 	"fmt"
-	esb "github.com/dnsge/twitch-eventsub-bindings"
-	esf "github.com/dnsge/twitch-eventsub-framework"
+
+	esf "github.com/twirapp/twitch-eventsub-framework"
+	"github.com/twirapp/twitch-eventsub-framework/esb"
 )
 
 const (

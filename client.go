@@ -9,7 +9,7 @@ import (
 	"net/url"
 	"time"
 
-	esb "github.com/dnsge/twitch-eventsub-bindings"
+	"github.com/twirapp/twitch-eventsub-framework/esb"
 )
 
 const (
