@@ -12,6 +12,7 @@ import (
 const (
 	webhookCallbackVerification = "webhook_callback_verification"
 	notificationMessageType     = "notification"
+	revocationMessageType       = "revocation"
 )
 
 // SubHandler implements http.Handler to receive Twitch webhook notifications.
@@ -27,6 +28,7 @@ type SubHandler struct {
 	// Challenge handler function.
 	// Returns whether the subscription should be accepted.
 	VerifyChallenge func(h *esb.ResponseHeaders, chal *esb.SubscriptionChallenge) bool
+	OnRevocate      func(h *esb.ResponseHeaders, revocation *esb.RevocationNotification) bool
 
 	// IDTracker used to deduplicate notifications
 	IDTracker               IDTracker
@@ -207,6 +209,8 @@ func (s *SubHandler) handlePost(w http.ResponseWriter, r *http.Request) {
 	case notificationMessageType:
 		s.handleNotification(w, bodyBytes, &h)
 		return
+	case revocationMessageType:
+		s.handleRevocation(w, bodyBytes, &h)
 	default:
 		http.Error(w, "Unknown message type", http.StatusBadRequest)
 		return
@@ -256,6 +260,22 @@ func (s *SubHandler) handleVerification(
 		_, _ = w.Write([]byte(data.Challenge))
 	} else {
 		http.Error(w, "Invalid subscription", http.StatusBadRequest)
+	}
+}
+
+func (s *SubHandler) handleRevocation(
+	w http.ResponseWriter,
+	bodyBytes []byte,
+	headers *esb.ResponseHeaders,
+) {
+	var data esb.RevocationNotification
+	if err := json.Unmarshal(bodyBytes, &data); err != nil {
+		http.Error(w, "Invalid JSON body", http.StatusBadRequest)
+		return
+	}
+
+	if s.OnRevocate != nil {
+		s.OnRevocate(headers, &data)
 	}
 }
 

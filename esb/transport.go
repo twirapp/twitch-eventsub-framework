@@ -34,6 +34,10 @@ type SubscriptionChallenge struct {
 	Subscription Subscription `json:"subscription"`
 }
 
+type RevocationNotification struct {
+	Subscription Subscription `json:"subscription"`
+}
+
 type Transport struct {
 	Method   string `json:"method"`
 	Callback string `json:"callback"`
