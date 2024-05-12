@@ -28,7 +28,7 @@ type SubHandler struct {
 	// Challenge handler function.
 	// Returns whether the subscription should be accepted.
 	VerifyChallenge func(h *esb.ResponseHeaders, chal *esb.SubscriptionChallenge) bool
-	OnRevocate      func(h *esb.ResponseHeaders, revocation *esb.RevocationNotification) bool
+	OnRevocate      func(h *esb.ResponseHeaders, revocation *esb.RevocationNotification)
 
 	// IDTracker used to deduplicate notifications
 	IDTracker               IDTracker
@@ -277,6 +277,8 @@ func (s *SubHandler) handleRevocation(
 	if s.OnRevocate != nil {
 		s.OnRevocate(headers, &data)
 	}
+
+	writeEmptyOK(w)
 }
 
 func (s *SubHandler) handleNotification(
