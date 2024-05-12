@@ -29,6 +29,7 @@ type SubHandler struct {
 	// Returns whether the subscription should be accepted.
 	VerifyChallenge func(h *esb.ResponseHeaders, chal *esb.SubscriptionChallenge) bool
 	OnRevocate      func(h *esb.ResponseHeaders, revocation *esb.RevocationNotification)
+	OnNotification  func(h *esb.ResponseHeaders)
 
 	// IDTracker used to deduplicate notifications
 	IDTracker               IDTracker
@@ -292,6 +293,9 @@ func (s *SubHandler) handleNotification(
 		return
 	}
 	event := notification.Event
+	if s.OnNotification != nil {
+		s.OnNotification(h)
+	}
 
 	switch h.SubscriptionType {
 	case "channel.update":
