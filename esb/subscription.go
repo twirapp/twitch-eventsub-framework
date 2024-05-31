@@ -12,6 +12,10 @@ type Subscription struct {
 	Cost      int         `json:"cost"`
 	Condition interface{} `json:"condition"`
 	CreatedAt string      `json:"created_at"`
+	Transport struct {
+		Method   string `json:"method"`
+		Callback string `json:"callback"`
+	} `json:"transport"`
 }
 
 func (s *Subscription) ConditionChannelBan() (*ConditionChannelBan, error) {
