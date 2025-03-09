@@ -425,3 +425,21 @@ func (s *Subscription) ConditionChannelUnbanRequestResolve() (
 		return &condition, json.Unmarshal(data, &condition)
 	}
 }
+
+func (s *Subscription) ConditionChannelVipAdd() (*ConditionChannelVipAdd, error) {
+	if data, err := json.Marshal(s.Condition); err != nil {
+		return nil, err
+	} else {
+		var condition ConditionChannelVipAdd
+		return &condition, json.Unmarshal(data, &condition)
+	}
+}
+
+func (s *Subscription) ConditionChannelVipRemove() (*ConditionChannelVipRemove, error) {
+	if data, err := json.Marshal(s.Condition); err != nil {
+		return nil, err
+	} else {
+		var condition ConditionChannelVipRemove
+		return &condition, json.Unmarshal(data, &condition)
+	}
+}

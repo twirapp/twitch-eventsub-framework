@@ -238,3 +238,13 @@ type ConditionChannelUnbanRequestResolve struct {
 	// The ID of the user that has permission to moderate the broadcaster’s channel and has granted your app permission to subscribe to this subscription type.
 	ModeratorUserID string `json:"moderator_user_id"`
 }
+
+type ConditionChannelVipAdd struct {
+	// The ID of the broadcaster you want to get channel VIP add notifications for. Maximum: 1.
+	BroadcasterUserID string `json:"broadcaster_user_id"`
+}
+
+type ConditionChannelVipRemove struct {
+	// The ID of the broadcaster you want to get channel VIP remove notifications for. Maximum: 1.
+	BroadcasterUserID string `json:"broadcaster_user_id"`
+}

@@ -150,6 +150,9 @@ type SubHandler struct {
 		h *esb.ResponseHeaders,
 		event *esb.ChannelUnbanRequestResolve,
 	)
+
+	HandleChannelVipAdd    func(h *esb.ResponseHeaders, event *esb.ChannelVipAdd)
+	HandleChannelVipRemove func(h *esb.ResponseHeaders, event *esb.ChannelVipRemove)
 }
 
 func NewSubHandler(doSignatureVerification bool, secret []byte) *SubHandler {
@@ -693,6 +696,25 @@ func (s *SubHandler) handleNotification(
 		}
 		if s.HandleChannelUnbanRequestResolve != nil {
 			go s.HandleChannelUnbanRequestResolve(h, &data)
+		}
+
+	case "channel.vip.add":
+		var data esb.ChannelVipAdd
+		if err := json.Unmarshal(event, &data); err != nil {
+			http.Error(w, "Invalid JSON body", http.StatusBadRequest)
+			return
+		}
+		if s.HandleChannelVipAdd != nil {
+			go s.HandleChannelVipAdd(h, &data)
+		}
+	case "channel.vip.remove":
+		var data esb.ChannelVipRemove
+		if err := json.Unmarshal(event, &data); err != nil {
+			http.Error(w, "Invalid JSON body", http.StatusBadRequest)
+			return
+		}
+		if s.HandleChannelVipRemove != nil {
+			go s.HandleChannelVipRemove(h, &data)
 		}
 	default:
 		http.Error(w, "Unknown notification type", http.StatusBadRequest)

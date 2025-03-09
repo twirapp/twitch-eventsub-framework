@@ -1274,3 +1274,33 @@ type ChannelUnbanRequestResolve struct {
 	// Can be the following: approved, canceled, denied
 	Status ChannelUnbanRequestResolveStatus `json:"status"`
 }
+
+type ChannelVipAdd struct {
+	// The user ID of the user that was added as a VIP.
+	UserId string `json:"user_id"`
+	// The user login of the user that was added as a VIP.
+	UserLogin string `json:"user_login"`
+	// The user display name of the user that was added as a VIP.
+	UserName string `json:"user_name"`
+	// The broadcaster user ID.
+	BroadcasterUserId string `json:"broadcaster_user_id"`
+	// The broadcaster login.
+	BroadcasterUserLogin string `json:"broadcaster_user_login"`
+	// The broadcaster display name.
+	BroadcasterUserName string `json:"broadcaster_user_name"`
+}
+
+type ChannelVipRemove struct {
+	// The user ID of the user that was removed as a VIP.
+	UserId string `json:"user_id"`
+	// The user login of the user that was removed as a VIP.
+	UserLogin string `json:"user_login"`
+	// The user display name of the user that was removed as a VIP.
+	UserName string `json:"user_name"`
+	// The broadcaster user ID.
+	BroadcasterUserId string `json:"broadcaster_user_id"`
+	// The broadcaster login.
+	BroadcasterUserLogin string `json:"broadcaster_user_login"`
+	// The broadcaster display name.
+	BroadcasterUserName string `json:"broadcaster_user_name"`
+}
