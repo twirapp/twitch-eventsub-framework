@@ -41,7 +41,7 @@ func TestSubHandler_ServeHTTP_VerificationInvalidSignature(t *testing.T) {
 
 func TestSubHandler_ServeHTTP_VerificationDynamic(t *testing.T) {
 	handler := NewSubHandler(false, nil)
-	handler.VerifyChallenge = func(h *esb.ResponseHeaders, chal *esb.SubscriptionChallenge) bool {
+	handler.VerifyChallenge = func(ctx context.Context, h *esb.ResponseHeaders, chal *esb.SubscriptionChallenge) bool {
 		return h.SubscriptionType == "channel.update"
 	}
 
@@ -82,7 +82,7 @@ func TestSubHandler_ServeHTTP_IDTracker(t *testing.T) {
 func TestSubHandler_ServeHTTP_Notification(t *testing.T) {
 	d := newDispatcher(1)
 	handler := NewSubHandler(false, nil)
-	handler.HandleChannelUpdate = func(h *esb.ResponseHeaders, event *esb.EventChannelUpdate) {
+	handler.HandleChannelUpdate = func(ctx context.Context, h *esb.ResponseHeaders, event *esb.EventChannelUpdate) {
 		d.Trigger()
 	}
 

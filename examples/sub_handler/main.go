@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"net/http"
@@ -16,7 +17,7 @@ const (
 
 func main() {
 	handler := esf.NewSubHandler(true, []byte(secretKey))
-	handler.HandleChannelUpdate = func(h *esb.ResponseHeaders, event *esb.EventChannelUpdate) {
+	handler.HandleChannelUpdate = func(ctx context.Context, h *esb.ResponseHeaders, event *esb.EventChannelUpdate) {
 		fmt.Println("Got a channel.update notification!")
 		fmt.Printf("Message id: %s\n", h.MessageID)
 		fmt.Printf("Channel: %s Title: %s\n", event.BroadcasterUserName, event.Title)
